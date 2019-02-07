@@ -1,0 +1,40 @@
+version: '3.5'
+services:
+  confluence:
+    image: cptactionhank/atlassian-confluence
+    depends_on:
+      - postgres
+    # environment:
+    #   - X_PROXY_NAME=${DOMAIN}
+    #   - X_PROXY_PORT=443
+    #   - X_PROXY_SCHEME=https
+    networks:
+      - traefik
+    ports:
+      - 8090:8090
+    external_links:
+      - ${TRAEFIK_CONTAINER}:${DOMAIN}
+    volumes:
+      - confluence:/var/atlassian/confluence
+    labels:
+      traefik.enable: true
+      traefik.port: 8090
+      traefik.frontend.rule: "Host:${DOMAIN}"
+    restart: unless-stopped
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=confluence
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    networks:
+      - traefik
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+volumes:
+  confluence:
+  postgres:
+networks:
+  traefik:
+    name: ${TRAEFIK_NETWORK}
+    external: true
