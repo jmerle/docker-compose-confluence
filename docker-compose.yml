@@ -4,16 +4,12 @@ services:
     image: cptactionhank/atlassian-confluence
     depends_on:
       - postgres
-    # environment:
-    #   - X_PROXY_NAME=${DOMAIN}
-    #   - X_PROXY_PORT=443
-    #   - X_PROXY_SCHEME=https
+    environment:
+      - X_PROXY_NAME=${DOMAIN}
+      - X_PROXY_PORT=443
+      - X_PROXY_SCHEME=https
     networks:
       - traefik
-    ports:
-      - 8090:8090
-    external_links:
-      - ${TRAEFIK_CONTAINER}:${DOMAIN}
     volumes:
       - confluence:/var/atlassian/confluence
     labels:
