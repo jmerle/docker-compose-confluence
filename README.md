@@ -1,4 +1,4 @@
-# Docker Compose Confluence
+# Traefik Confluence
 
 A Docker Compose configuration to run [Confluence](https://www.atlassian.com/software/confluence) behind a [Traefik](https://traefik.io/) reverse proxy.
 
